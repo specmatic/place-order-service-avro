@@ -2,6 +2,9 @@
   "name": "PLACE_MACBOOK_ORDER",
   "receive": {
     "topic": "new-orders",
+    "headers": {
+      "orderRequestId": 4567
+    },
     "payload": {
       "id": 2,
       "orderItems": [
@@ -16,6 +19,9 @@
   },
   "send": {
     "topic": "wip-orders",
+    "headers": {
+      "orderRequestId": 4567
+    },
     "payload": {
       "id": 2,
       "status": "PROCESSING"

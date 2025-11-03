@@ -12,7 +12,7 @@
       "type": {
         "type": "enum",
         "name": "OrderStatus",
-        "symbols": ["PENDING", "PROCESSING", "COMPLETED", "CANCELLED"]
+        "symbols": ["PENDING", "PROCESSING", "PROCESSED", "CANCELLED"]
       }
     }
   ]
