@@ -6,10 +6,6 @@
 
 This project demonstrates **contract-driven development** using your Avro schemas for asynchronous microservices communication. It showcases how [AsyncAPI specification](https://www.asyncapi.com/en) can be used in conjunction with your Avro schemas to thoroughly contract test your EDA.
 
-![Architecture Diagram](avro-sample-architecture.png)
-
-The diagram covers an order processing flow between `checkout-service` and `order-service` communicating through Kafka topics with Avro serialization for the payloads.
-
 ## Referencing your existing Avro files your schema registry in AsyncAPI spec
 
 The AsyncAPI specification that this application is based on **reuses the Avro schemas by referencing them instead of redefining them again**. 
@@ -32,10 +28,6 @@ components:
 ### Prerequisites
 - Java 17+
 - Docker & Docker Compose
-
-![Test Architecture Diagram](avro-sample-test-architecture.png)
-
-The `order-service` is the system under test in our case.
 
 ### Run Contract Tests Programmatically
 ```bash
@@ -100,20 +92,6 @@ docker compose down -v
 - **Consumer behavior** on message receipt
 - **Error handling** for malformed messages
 - **And more ...**
-
-## Schema Management
-
-### Schema Organization
-```
-src/main/avro/
-├── NewOrders.avsc          # Order creation events
-├── WipOrders.avsc          # Work-in-progress updates
-├── OrdersToCancel.avsc     # Cancellation requests
-└── CancelledOrders.avsc    # Cancellation confirmations
-```
-
-### Registration Process
-Schemas are automatically registered during test setup via `register-schemas.sh` script, ensuring tests run against the actual schema registry.
 
 ## Business Impact
 
