@@ -56,23 +56,14 @@ class ContractTestUsingTestContainer {
         schemaRegistry.stop()
     }
 
-    private fun testContainer(): GenericContainer<*> {
-        return GenericContainer("specmatic/specmatic-kafka")
-            .withCommand(
-                "test",
-                "--broker=$kafkaBootstrapServers",
-            ).withEnv(
-                mapOf(
-                    SCHEMA_REGISTRY_URL to schemaRegistryUrl,
-                    SCHEMA_REGISTRY_KIND to SchemaRegistryKind.CONFLUENT.name,
-                    AVAILABLE_SERVERS to kafkaBootstrapServers
-                )
+    private fun GenericContainer<*>.configure(waitLogMessage: String): GenericContainer<*> {
+        return this.withEnv(
+            mapOf(
+                SCHEMA_REGISTRY_URL to schemaRegistryUrl,
+                SCHEMA_REGISTRY_KIND to SchemaRegistryKind.CONFLUENT.name,
+                AVAILABLE_SERVERS to kafkaBootstrapServers
             )
-            .withFileSystemBind(
-                "./api-specs",
-                "/usr/src/app/api-specs",
-                BindMode.READ_ONLY
-            )
+        )
             .withFileSystemBind(
                 "./specmatic.yaml",
                 "/usr/src/app/specmatic.yaml",
@@ -81,16 +72,47 @@ class ContractTestUsingTestContainer {
                 "./build/reports/specmatic",
                 "/usr/src/app/build/reports/specmatic",
                 BindMode.READ_WRITE,
-            ).waitingFor(Wait.forLogMessage(".*The coverage report is generated.*", 1))
+            ).waitingFor(Wait.forLogMessage(".*$waitLogMessage.*", 1))
             .withNetworkMode("host")
             .withLogConsumer { print(it.utf8String) }
     }
 
+    private fun testContainer(): GenericContainer<*> {
+        return GenericContainer("specmatic/specmatic-kafka")
+            .withCommand(
+                "test",
+                "--broker=$kafkaBootstrapServers",
+            ).configure("The coverage report is generated")
+    }
+
+    private fun stubContainer(): GenericContainer<*> {
+        return GenericContainer("specmatic/specmatic-kafka")
+            .withCommand(
+                "virtualize",
+                "--broker=$kafkaBootstrapServers",
+            ).configure("KafkaMock has started")
+    }
+
     @Test
     fun specmaticContractTest() {
+        val stubContainer = stubContainer()
         val testContainer = testContainer()
-        testContainer.start()
-        val hasSucceeded = testContainer.logs.contains("Result: FAILED").not()
-        assertThat(hasSucceeded).isTrue()
+        try {
+            stubContainer.start()
+            testContainer.start()
+            val hasSucceeded = testContainer.logs.contains("Result: FAILED").not()
+            assertThat(hasSucceeded).isTrue()
+        } finally {
+            // wait for message to be published on wip-orders topic
+            Thread.sleep(3000)
+            stubContainer.execInContainer(
+                "curl",
+                "-sS",
+                "-X",
+                "POST",
+                "http://localhost:9999/stop"
+            )
+            stubContainer.stop()
+        }
     }
 }
