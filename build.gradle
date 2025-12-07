@@ -25,10 +25,10 @@ repositories {
 dependencies {
     implementation ('org.springframework.boot:spring-boot-starter')
     implementation 'org.springframework.kafka:spring-kafka:3.3.11'
-    implementation 'com.fasterxml.jackson.core:jackson-databind:2.16.0'
-    implementation 'com.fasterxml.jackson.core:jackson-core:2.16.0'
-    implementation 'com.fasterxml.jackson.core:jackson-annotations:2.16.0'
-    implementation 'com.fasterxml.jackson.module:jackson-module-kotlin:2.16.0'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.20.1'
+    implementation 'com.fasterxml.jackson.core:jackson-core:2.20.1'
+    implementation 'com.fasterxml.jackson.core:jackson-annotations:2.20'
+    implementation 'com.fasterxml.jackson.module:jackson-module-kotlin:2.20.1'
 
     implementation("io.confluent:kafka-avro-serializer:7.9.5")
     implementation("org.apache.avro:avro:1.12.1")
