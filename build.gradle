@@ -32,7 +32,7 @@ dependencies {
 
     implementation("io.confluent:kafka-avro-serializer:7.9.5")
     implementation("org.apache.avro:avro:1.12.1")
-    implementation("io.confluent:kafka-schema-registry-client:7.9.5")
+    implementation("io.confluent:kafka-schema-registry-client:8.1.1")
 
     testImplementation platform('org.junit:junit-bom:6.0.1')
     testImplementation("io.specmatic.async:specmatic-kafka:1.7.4")
