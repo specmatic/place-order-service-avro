@@ -26,6 +26,12 @@ jobs:
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
 
+      - name: Save Specmatic license
+        if: github.ref == 'refs/heads/main'
+        run: |
+          mkdir -p ~/.specmatic
+          echo "${{ secrets.SPECMATIC_LICENSE_KEY }}" > ~/.specmatic/specmatic-license.txt
+
       - name: Build BFF project with Gradle
         run: ./gradlew build
 
@@ -34,12 +40,6 @@ jobs:
         with:
           name: ${{ matrix.os }}-${{ matrix.java }}-html-report
           path: build/reports/specmatic/html
-
-      - name: Save Specmatic license
-        if: github.ref == 'refs/heads/main'
-        run: |
-          mkdir -p ~/.specmatic
-          echo "${{ secrets.SPECMATIC_LICENSE_KEY }}" > ~/.specmatic/specmatic-license.txt
 
       - name: Run Specmatic Insights Build Reporter
         if: github.ref == 'refs/heads/main'
