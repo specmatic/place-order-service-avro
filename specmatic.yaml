@@ -2,8 +2,34 @@ version: 2
 contracts:
   - git:
       branch: main
-      url: https://github.com/specmatic/specmatic-order-contracts.git
+      url: "https://github.com/specmatic/specmatic-order-contracts.git"
     provides:
-      - io/specmatic/examples/store/asyncapi/3_0_0/data_pipeline/order_service/v1/new-orders-async-avro-v1.yaml
+      - specs:
+          - io/specmatic/examples/store/asyncapi/3_0_0/data_pipeline/order_service/v1/new-orders-async-avro-v1.yaml
+        specType: asyncapi
+        config:
+          servers:
+            - host: localhost:9092
+              protocol: kafka
+          schemaRegistry:
+            kind: CONFLUENT
+            url: http://localhost:8085
+            username: admin
+            password: admin-secret
     consumes:
-      - io/specmatic/examples/store/asyncapi/3_0_0/data_pipeline/order_service/v1/wip-orders-async-avro-v1.yaml
+      - specs:
+          - io/specmatic/examples/store/asyncapi/3_0_0/data_pipeline/order_service/v1/wip-orders-async-avro-v1.yaml
+        specType: asyncapi
+        config:
+          servers:
+            - host: localhost:9092
+              protocol: kafka
+          schemaRegistry:
+            kind: CONFLUENT
+            url: http://localhost:8085
+            username: admin
+            password: admin-secret
+
+report:
+  formatters:
+    - type: ctrf
