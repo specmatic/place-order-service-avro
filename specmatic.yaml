@@ -1,35 +1,55 @@
-version: 2
-contracts:
-  - git:
-      branch: main
-      url: "https://github.com/specmatic/specmatic-order-contracts.git"
-    provides:
-      - specs:
-          - io/specmatic/examples/store/asyncapi/3_0_0/data_pipeline/order_service/v1/new-orders-async-avro-v1.yaml
-        specType: asyncapi
-        config:
-          servers:
-            - host: localhost:9092
-              protocol: kafka
-          schemaRegistry:
-            kind: CONFLUENT
-            url: http://localhost:8085
-            username: admin
-            password: admin-secret
-    consumes:
-      - specs:
-          - io/specmatic/examples/store/asyncapi/3_0_0/data_pipeline/order_service/v1/wip-orders-async-avro-v1.yaml
-        specType: asyncapi
-        config:
-          servers:
-            - host: localhost:9092
-              protocol: kafka
-          schemaRegistry:
-            kind: CONFLUENT
-            url: http://localhost:8085
-            username: admin
-            password: admin-secret
-
-report:
-  formatters:
-    - type: ctrf
+version: 3
+systemUnderTest:
+  service:
+    $ref: "#/components/services/placeOrderService"
+    runOptions:
+      $ref: "#/components/runOptions/placeOrderServiceTest"
+dependencies:
+  services:
+    - service:
+        $ref: "#/components/services/processOrderService"
+        runOptions:
+          $ref: "#/components/runOptions/processOrderServiceMock"
+components:
+  sources:
+    specmaticOrderContracts:
+      git:
+        url: https://github.com/specmatic/specmatic-order-contracts.git
+  services:
+    placeOrderService:
+      definitions:
+        - definition:
+            source:
+              $ref: "#/components/sources/specmaticOrderContracts"
+            specs:
+              - io/specmatic/examples/store/asyncapi/3_0_0/data_pipeline/order_service/v1/new-orders-async-avro-v1.yaml
+    processOrderService:
+      definitions:
+        - definition:
+            source:
+              $ref: "#/components/sources/specmaticOrderContracts"
+            specs:
+              - io/specmatic/examples/store/asyncapi/3_0_0/data_pipeline/order_service/v1/wip-orders-async-avro-v1.yaml
+  runOptions:
+    placeOrderServiceTest:
+      asyncapi:
+        type: test
+        servers:
+          - host: localhost:9092
+            protocol: kafka
+        schemaRegistry:
+          kind: CONFLUENT
+          url: http://localhost:8085
+          username: admin
+          password: admin-secret
+    processOrderServiceMock:
+      asyncapi:
+        type: mock
+        servers:
+          - host: localhost:9092
+            protocol: kafka
+        schemaRegistry:
+          kind: CONFLUENT
+          url: http://localhost:8085
+          username: admin
+          password: admin-secret
