@@ -21,7 +21,7 @@ repositories {
 
 dependencies {
     implementation ('org.springframework.boot:spring-boot-starter')
-    implementation ('org.springframework.kafka:spring-kafka:3.3.13') {
+    implementation ('org.springframework.kafka:spring-kafka:3.3.14') {
         exclude group: 'org.lz4', module: 'lz4-java'
     }
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.21.1'
