@@ -37,7 +37,7 @@ dependencies {
         exclude group: "org.lz4", module: "lz4-java"
     }
 
-    testImplementation platform('org.junit:junit-bom:6.0.3')
+    testImplementation platform('org.junit:junit-bom:6.1.0')
     testImplementation("io.specmatic.enterprise:executable:$specmaticEnterpriseVersion")
     testImplementation("org.testcontainers:testcontainers:1.19.3")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
