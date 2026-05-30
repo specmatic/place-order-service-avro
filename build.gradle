@@ -24,10 +24,10 @@ dependencies {
     implementation ('org.springframework.kafka:spring-kafka:3.3.15') {
         exclude group: 'org.lz4', module: 'lz4-java'
     }
-    implementation 'com.fasterxml.jackson.core:jackson-databind:2.21.3'
-    implementation 'com.fasterxml.jackson.core:jackson-core:2.21.3'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.21.4'
+    implementation 'com.fasterxml.jackson.core:jackson-core:2.21.4'
     implementation 'com.fasterxml.jackson.core:jackson-annotations:2.21'
-    implementation 'com.fasterxml.jackson.module:jackson-module-kotlin:2.21.3'
+    implementation 'com.fasterxml.jackson.module:jackson-module-kotlin:2.21.4'
 
     implementation("io.confluent:kafka-avro-serializer:7.9.5") {
         exclude group: "org.lz4", module: "lz4-java"
