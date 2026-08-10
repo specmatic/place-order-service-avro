@@ -29,7 +29,7 @@ dependencies {
     implementation 'com.fasterxml.jackson.core:jackson-annotations:2.22'
     implementation 'com.fasterxml.jackson.module:jackson-module-kotlin:2.22.1'
 
-    implementation("io.confluent:kafka-avro-serializer:7.9.9") {
+    implementation("io.confluent:kafka-avro-serializer:8.3.1") {
         exclude group: "org.lz4", module: "lz4-java"
     }
     implementation("org.apache.avro:avro:1.12.1")
