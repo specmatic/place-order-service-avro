@@ -33,7 +33,7 @@ dependencies {
         exclude group: "org.lz4", module: "lz4-java"
     }
     implementation("org.apache.avro:avro:1.12.2")
-    implementation("io.confluent:kafka-schema-registry-client:7.9.9") {
+    implementation("io.confluent:kafka-schema-registry-client:8.3.1") {
         exclude group: "org.lz4", module: "lz4-java"
     }
 
